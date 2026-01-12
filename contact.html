@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お問い合わせ - PrizeHunter</title>
+    <meta name="description" content="PrizeHunterへのお問い合わせ">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">PrizeHunter</a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">機能</a></li>
+                <li><a href="index.html#download">ダウンロード</a></li>
+                <li><a href="terms.html">利用規約</a></li>
+                <li><a href="privacy.html">プライバシーポリシー</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="legal-page">
+        <div class="legal-content">
+            <a href="index.html" class="back-link">&larr; トップに戻る</a>
+            <h1>お問い合わせ</h1>
+            <p style="margin-bottom: 2rem;">お問い合わせ内容をご記入ください。</p>
+
+            <form
+                class="contact-form"
+                action="https://docs.google.com/forms/d/e/1FAIpQLSfBLql4BgtYCtqcsMQ0Jj8jC1RXj72vM68rcJ9zdjzcvxOt-A/formResponse"
+                method="POST"
+                target="hidden_iframe"
+                onsubmit="submitted=true;"
+            >
+                <div class="form-item">
+                    <label class="form-label" for="field-mail">
+                        メールアドレス<span class="form-required">必須</span>
+                    </label>
+                    <input
+                        name="entry.482502285"
+                        class="form-input"
+                        id="field-mail"
+                        placeholder="sample@gmail.com"
+                        type="email"
+                        required
+                    />
+                </div>
+                <div class="form-item">
+                    <label class="form-label" for="field-message">
+                        メッセージ内容<span class="form-required">必須</span>
+                    </label>
+                    <textarea
+                        name="entry.2034524166"
+                        class="form-input form-textarea"
+                        id="field-message"
+                        placeholder="お問い合わせ内容"
+                        required
+                    ></textarea>
+                </div>
+                <div class="form-submit">
+                    <button type="submit" class="btn btn-primary">送信する</button>
+                </div>
+            </form>
+
+            <script type="text/javascript">
+                var submitted = false;
+            </script>
+            <iframe
+                name="hidden_iframe"
+                id="hidden_iframe"
+                style="display: none"
+                onload="if(submitted){window.location='thanks.html';}"
+            ></iframe>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="terms.html">利用規約</a>
+                <a href="privacy.html">プライバシーポリシー</a>
+                <a href="contact.html">お問い合わせ</a>
+            </div>
+            <p class="copyright">&copy; 2025 PrizeHunter. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
