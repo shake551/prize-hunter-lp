@@ -84,5 +84,44 @@
             <p class="copyright">&copy; 2025 PrizeHunter. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- アプリ内ブラウザでストアリンクが開けない問題の対策 -->
+    <div id="inapp-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;justify-content:center;align-items:center;">
+        <div style="background:#fff;border-radius:16px;padding:32px 24px;max-width:340px;text-align:center;margin:16px;">
+            <p style="font-size:18px;font-weight:bold;margin:0 0 12px;">アプリ内ブラウザでは<br>ストアを開けません</p>
+            <p style="font-size:14px;color:#555;margin:0 0 20px;line-height:1.6;">右上の「…」メニューから<br>「Safari で開く」または<br>「ブラウザで開く」を<br>選択してください。</p>
+            <button onclick="document.getElementById('inapp-overlay').style.display='none'" style="background:#333;color:#fff;border:none;border-radius:8px;padding:12px 32px;font-size:15px;cursor:pointer;">閉じる</button>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        var ua = navigator.userAgent || '';
+        var isInApp = /FBAN|FBAV|Instagram|Line\/|Twitter|TikTok|BytedanceWebview|ByteLocale|Snapchat|Pinterest|LinkedIn|MicroMessenger|WeChat|Douyin/i.test(ua);
+        if (!isInApp) return;
+
+        var storeLinks = document.querySelectorAll('a[href*="apps.apple.com"], a[href*="play.google.com"]');
+        for (var i = 0; i < storeLinks.length; i++) {
+            storeLinks[i].addEventListener('click', function(e) {
+                e.preventDefault();
+                var url = this.href;
+
+                // 新しいウィンドウで開く試行（一部アプリ内ブラウザで外部ブラウザが起動する）
+                var w = window.open(url, '_blank');
+
+                // window.open がブロックされた場合、location で試行
+                if (!w || w.closed) {
+                    window.location.href = url;
+                }
+
+                // どちらも効かなかった場合、ガイドを表示
+                setTimeout(function() {
+                    var overlay = document.getElementById('inapp-overlay');
+                    if (overlay) overlay.style.display = 'flex';
+                }, 1500);
+            });
+        }
+    })();
+    </script>
 </body>
 </html>
