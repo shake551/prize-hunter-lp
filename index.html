@@ -100,25 +100,48 @@
         var isInApp = /FBAN|FBAV|Instagram|Line\/|Twitter|TikTok|BytedanceWebview|ByteLocale|Snapchat|Pinterest|LinkedIn|MicroMessenger|WeChat|Douyin/i.test(ua);
         if (!isInApp) return;
 
+        var isIOS = /iPhone|iPad|iPod/i.test(ua);
+        var isAndroid = /Android/i.test(ua);
+
         var storeLinks = document.querySelectorAll('a[href*="apps.apple.com"], a[href*="play.google.com"]');
         for (var i = 0; i < storeLinks.length; i++) {
             storeLinks[i].addEventListener('click', function(e) {
                 e.preventDefault();
                 var url = this.href;
+                var isAppStore = url.indexOf('apps.apple.com') !== -1;
 
-                // 新しいウィンドウで開く試行（一部アプリ内ブラウザで外部ブラウザが起動する）
-                var w = window.open(url, '_blank');
-
-                // window.open がブロックされた場合、location で試行
-                if (!w || w.closed) {
+                if (isAppStore && isIOS) {
+                    // iOS: itms-apps スキームで App Store アプリを直接起動
+                    window.location.href = 'itms-apps://itunes.apple.com/jp/app/id6504929141';
+                } else if (!isAppStore && isAndroid) {
+                    // Android: Intent URL で Play Store アプリを直接起動
+                    window.location.href = 'intent://details?id=com.shake.prize_hunter&hl=ja-JP#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+                } else {
+                    // iOS で Google Play リンク、Android で App Store リンクなど
                     window.location.href = url;
+                    return;
                 }
 
-                // どちらも効かなかった場合、ガイドを表示
+                // スキームが効かなかった場合のフォールバック
+                var fallbackTimer = setTimeout(function() {
+                    window.location.href = url;
+                }, 500);
+
+                // ストアが開いた場合はページが非表示になるのでフォールバックをキャンセル
+                document.addEventListener('visibilitychange', function onHide() {
+                    if (document.hidden) {
+                        clearTimeout(fallbackTimer);
+                        document.removeEventListener('visibilitychange', onHide);
+                    }
+                });
+
+                // すべて失敗した場合、ガイドを表示
                 setTimeout(function() {
-                    var overlay = document.getElementById('inapp-overlay');
-                    if (overlay) overlay.style.display = 'flex';
-                }, 1500);
+                    if (!document.hidden) {
+                        var overlay = document.getElementById('inapp-overlay');
+                        if (overlay) overlay.style.display = 'flex';
+                    }
+                }, 2000);
             });
         }
     })();
