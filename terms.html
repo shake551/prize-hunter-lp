@@ -5,21 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>利用規約 - PrizeHunter</title>
     <meta name="description" content="PrizeHunterの利用規約">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
+    <!-- Grain overlay for texture -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <header id="site-header">
         <nav>
-            <a href="index.html" class="logo">PrizeHunter</a>
-            <ul class="nav-links">
+            <a href="index.html" class="logo">
+                <img class="logo-icon" src="icon.png" alt="PrizeHunter" width="32" height="32">
+                <span class="logo-text">PrizeHunter</span>
+            </a>
+            <ul class="nav-links" id="nav-links">
                 <li><a href="index.html#features">機能</a></li>
+                <li><a href="index.html#premium">プレミアム</a></li>
+                <li><a href="index.html#pricing">料金</a></li>
                 <li><a href="index.html#download">ダウンロード</a></li>
                 <li><a href="terms.html">利用規約</a></li>
-                <li><a href="privacy.html">プライバシーポリシー</a></li>
+                <li><a href="privacy.html">ポリシー</a></li>
                 <li><a href="contact.html">お問い合わせ</a></li>
             </ul>
+            <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
+
+    <!-- Mobile nav overlay -->
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+        <ul class="mobile-nav-links">
+            <li><a href="index.html#features">機能</a></li>
+            <li><a href="index.html#premium">プレミアム</a></li>
+            <li><a href="index.html#pricing">料金</a></li>
+            <li><a href="index.html#download">ダウンロード</a></li>
+            <li><a href="terms.html">利用規約</a></li>
+            <li><a href="privacy.html">プライバシーポリシー</a></li>
+            <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+    </div>
 
     <main class="legal-page">
         <div class="legal-content">
@@ -108,8 +137,8 @@
                     <li>解約後も、現在のサブスクリプション期間の終了日までは有料プランの機能をご利用いただけます。期間終了後は無料プランに自動的に移行します。</li>
                     <li>サブスクリプションの返金については、各プラットフォームのポリシーに準拠します。返金をご希望の場合は、Apple App Store または Google Play ストアに直接お問い合わせください。
                         <ol>
-                            <li>Apple：<a href="https://support.apple.com/ja-jp/118223" style="color: var(--primary-color);">Appleサポート - サブスクリプションの返金</a></li>
-                            <li>Google：<a href="https://support.google.com/googleplay/answer/2479637" style="color: var(--primary-color);">Google Play ヘルプ - 払い戻しをリクエストする</a></li>
+                            <li>Apple：<a href="https://support.apple.com/ja-jp/118223" style="color: var(--primary);">Appleサポート - サブスクリプションの返金</a></li>
+                            <li>Google：<a href="https://support.google.com/googleplay/answer/2479637" style="color: var(--primary);">Google Play ヘルプ - 払い戻しをリクエストする</a></li>
                         </ol>
                     </li>
                     <li>無料トライアル期間が提供される場合、トライアル期間終了後に自動的に有料プランに移行し、課金が開始されます。トライアル期間中に解約した場合、課金は発生しません。</li>
@@ -221,19 +250,59 @@
             </div>
 
             <p style="margin-top: 3rem; text-align: right;">以上</p>
-            <p style="text-align: right; color: var(--text-light);">最終改定日：2026年2月24日</p>
+            <p style="text-align: right; color: var(--text-secondary);">最終改定日：2026年2月24日</p>
         </div>
     </main>
 
     <footer>
-        <div class="footer-content">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img class="logo-icon" src="icon.png" alt="PrizeHunter" width="32" height="32">
+                <span>PrizeHunter</span>
+            </div>
             <div class="footer-links">
                 <a href="terms.html">利用規約</a>
                 <a href="privacy.html">プライバシーポリシー</a>
                 <a href="contact.html">お問い合わせ</a>
             </div>
-            <p class="copyright">&copy; 2025 PrizeHunter. All rights reserved.</p>
+            <p class="footer-copy">&copy; 2025 PrizeHunter. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+    // === Hamburger Menu ===
+    (function() {
+        var btn = document.getElementById('hamburger');
+        var overlay = document.getElementById('mobile-nav-overlay');
+        var links = overlay.querySelectorAll('a');
+
+        function toggle() {
+            var open = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', !open);
+            btn.classList.toggle('open');
+            overlay.classList.toggle('open');
+            document.body.style.overflow = open ? '' : 'hidden';
+        }
+
+        btn.addEventListener('click', toggle);
+        for (var i = 0; i < links.length; i++) {
+            links[i].addEventListener('click', function() {
+                if (overlay.classList.contains('open')) toggle();
+            });
+        }
+    })();
+
+    // === Header scroll effect ===
+    (function() {
+        var header = document.getElementById('site-header');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
