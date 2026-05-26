@@ -47,7 +47,7 @@ python -m http.server 8000
 
 ## 完了前チェック
 
-@../docs/development/agent-definition-of-done.md
+@docs/development/agent-definition-of-done.md
 
 ### lp 固有の最小検証
 
